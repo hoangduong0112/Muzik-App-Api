@@ -40,6 +40,9 @@ public class Song {
     @JoinColumn(name = "artist_id")
     private Artist artist;
 
+    @Transient
+    private String artistName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JacksonIdSerializer
     @OnDelete(action = OnDeleteAction.SET_NULL)
@@ -70,4 +73,8 @@ public class Song {
         return this.getLikeUsers().size();
     }
 
+    @JsonProperty("artistName")
+    public String getArtistName(){
+        return this.getArtist().getName();
+    }
 }
