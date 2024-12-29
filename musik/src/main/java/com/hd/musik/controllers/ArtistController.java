@@ -22,15 +22,12 @@ public class ArtistController {
         return new ResponseEntity<>(artist, HttpStatus.OK);
     }
     @GetMapping("/")
-    public ResponseEntity<?> getAllArtists() {
-        return new ResponseEntity<>(this.artistService.getAllArtists(), HttpStatus.OK);
+    public ResponseEntity<?> getAllArtists(@RequestParam(name = "kw", required = false) String kw) {
+        if(kw == null)
+            return new ResponseEntity<>(this.artistService.getAllArtists(), HttpStatus.OK);
+        else
+            return new ResponseEntity<>(this.artistService.getArtistsByWord(kw), HttpStatus.OK);
     }
-
-    @GetMapping("")
-    public ResponseEntity<?> searchArtistsByKw(@RequestParam(name = "kw", required = false) String kw) {
-        return new ResponseEntity<>(this.artistService.getArtistsByWord(kw), HttpStatus.OK);
-    }
-
 
 
 }

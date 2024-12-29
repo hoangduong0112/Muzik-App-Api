@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,19 +20,19 @@ public class SongController {
     private SongService songService;
 
     @GetMapping("/")
-    public ResponseEntity<?> getAllSongs() {
-        return new ResponseEntity<>(songService.getAllSongs(), HttpStatus.OK);
+    public ResponseEntity<?> getAllSongs(@RequestParam(value = "kw", required = false) String kw){
+        List<Song> songs = new ArrayList<>();
+        if(kw != null)
+           songs = songService.getSongsByKw(kw);
+        else
+            songs = songService.getAllSongs();
+        return new ResponseEntity<>(songs, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getSongById(@PathVariable int id){
         Song song = songService.getSongById(id);
         return new ResponseEntity<>(song, HttpStatus.OK);
-    }
-    @GetMapping("")
-    public ResponseEntity<?> getSongByKw(@RequestParam(name = "kw", required = false) String kw){
-        List<Song> songs = songService.getSongsByKw(kw);
-        return new ResponseEntity<>(songs, HttpStatus.OK);
     }
 
     @GetMapping("/genre/{genreId}")

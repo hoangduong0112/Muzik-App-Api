@@ -20,12 +20,12 @@ public class AlbumController {
         return new ResponseEntity<>(album, HttpStatus.OK);
     }
     @GetMapping("/")
-    public ResponseEntity<?> getAllAlbums() {
-        return new ResponseEntity<>(this.albumService.getAllAlbum(), HttpStatus.OK);
+    public ResponseEntity<?> getAllAlbums(@RequestParam(value = "kw", required = false) String kw) {
+        if(kw==null)
+            return new ResponseEntity<>(this.albumService.getAllAlbum(), HttpStatus.OK);
+        else
+            return new ResponseEntity<>(this.albumService.getAlbumByKw(kw), HttpStatus.OK);
     }
 
-    @GetMapping("")
-    public ResponseEntity<?> searchAlbumsByKw(@RequestParam(name = "kw", required = false) String kw) {
-        return new ResponseEntity<>(this.albumService.getAlbumByKw(kw), HttpStatus.OK);
-    }
+
 }

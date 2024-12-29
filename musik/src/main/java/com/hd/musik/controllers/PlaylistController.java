@@ -20,7 +20,7 @@ public class PlaylistController {
     private PlaylistService playlistService;
 
     @GetMapping("/")
-    public ResponseEntity<?> getAllPlaylists(Authentication authentication, @RequestParam String kw) {
+    public ResponseEntity<?> getAllPlaylists(Authentication authentication, @RequestParam(required = false) String kw) {
 
         User user = (User) authentication.getPrincipal();
         return new ResponseEntity<>(playlistService.getPlaylistsByUser(user, kw), HttpStatus.OK);

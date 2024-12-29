@@ -48,4 +48,13 @@ public class UserController {
 
         return ResponseEntity.ok(jwtCookie);
     }
+
+    @GetMapping("/me")
+    private ResponseEntity<?> getCurrentUser(Authentication authentication){
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        User user = (User) authentication.getPrincipal();
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 }

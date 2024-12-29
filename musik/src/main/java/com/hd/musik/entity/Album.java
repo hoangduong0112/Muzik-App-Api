@@ -1,6 +1,7 @@
 package com.hd.musik.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hd.musik.annotations.JacksonIdSerializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,22 @@ public class Album {
     private String url;
 
     @OneToMany(mappedBy = "album")
+    @JacksonIdSerializer
     private List<Song> songs = new ArrayList<>();
 
+    @Transient
+    private int countSong;
+
+    @Transient
+    private String artistName;
+
+    @JsonProperty("countSong")
+    private int getCountSong(){
+        return this.songs.size();
+    }
+
+    @JsonProperty("artistName")
+    private String getArtistName(){
+        return this.artist.getName();
+    }
 }
