@@ -1,6 +1,7 @@
 package com.hd.musik.services.servicesImpl;
 
 import com.hd.musik.entity.Song;
+import com.hd.musik.entity.User;
 import com.hd.musik.exceptions.ResourceNotFoundException;
 import com.hd.musik.repository.SongRepository;
 import com.hd.musik.services.SongService;
@@ -20,6 +21,12 @@ public class SongServiceImpl implements SongService {
     public Song getSongById(int id) {
         return this.songRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException(String.format("Song ID: %s does not exist", id)));
+    }
+
+    @Override
+    public boolean isSongLike(User user, int id) {
+        return user.getLikeSongs().stream()
+                .anyMatch(song -> song.getId() == id);
     }
 
     @Override

@@ -41,7 +41,6 @@ public class Album {
     private String url;
 
     @OneToMany(mappedBy = "album")
-    @JacksonIdSerializer
     private List<Song> songs = new ArrayList<>();
 
     @Transient

@@ -34,7 +34,6 @@ public class Playlist {
     private User user;
 
     @ManyToMany
-    @JacksonIdSerializer
     @JoinTable(name = "song_playlist",
             joinColumns = @JoinColumn(name = "playlist_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id"))

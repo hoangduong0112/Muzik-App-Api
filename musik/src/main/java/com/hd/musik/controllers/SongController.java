@@ -2,10 +2,12 @@ package com.hd.musik.controllers;
 
 
 import com.hd.musik.entity.Song;
+import com.hd.musik.entity.User;
 import com.hd.musik.services.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,12 +31,17 @@ public class SongController {
         return new ResponseEntity<>(songs, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/liked")
+    public ResponseEntity<?> isSongLike(Authentication authentication, @PathVariable int id){
+        User user = (User) authentication.getPrincipal();
+        return new ResponseEntity<>(this.songService.isSongLike(user, id), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getSongById(@PathVariable int id){
         Song song = songService.getSongById(id);
         return new ResponseEntity<>(song, HttpStatus.OK);
     }
-
     @GetMapping("/genre/{genreId}")
     public ResponseEntity<?> getSongByGenreAndKw(@PathVariable int genreId, @RequestParam(name = "kw", required = false) String kw){
         List<Song> songs = songService.getSongsByGenre(genreId, kw);
